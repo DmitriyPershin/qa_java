@@ -8,6 +8,7 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -40,11 +41,10 @@ public class TestCat {
     }
 
     @Test
-    public void TestGetFoodWithValue() throws Exception {
-        Feline feline = new Feline();
-        Feline felineSpy = Mockito.spy(feline);
-        Cat cat = new Cat(felineSpy);
+    public void testGetFoodWithValue() throws Exception {
+        Cat cat = new Cat(feline);
         Cat catSpy = Mockito.spy(cat);
+        Mockito.when(feline.eatMeat()).thenReturn(Collections.singletonList("Животные, Птицы, Рыба"));
         List<String> eat = List.of("Животные", "Птицы", "Рыба");
         Assert.assertEquals(eat, catSpy.getFood());
     }

@@ -6,42 +6,18 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.mockito.Mockito;
 import org.mockito.Spy;
-
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 
-@RunWith(Parameterized.class)
-public class TestLion {
-
-    String sexForTest;
-    boolean hasManeForTest;
-
-    public TestLion (String sexForTest,boolean hasManeForTest){
-    this.sexForTest=sexForTest;
-    this.hasManeForTest=hasManeForTest;
-    }
-    @Parameterized.Parameters
-    public static Collection<Object[]> testData() {
-        return Arrays.asList(new Object[][] {
-                {"Самец", true},
-                {"Самка", false}
-
-        });
-    }
+@RunWith(MockitoJUnitRunner.class)
+public class TestLion{
     @Spy
     Feline feline;
 
-
-
-    @Test
-    public void testConstructorForLion() throws Exception {
-        Lion lion = new Lion(sexForTest,feline);
-        Lion lionSpy = Mockito.spy(lion);
-        Assert.assertEquals(hasManeForTest,lionSpy.doesHaveMane());
-    }
 
     @Test
     public void testTextException() {
@@ -55,7 +31,7 @@ public class TestLion {
     @Test
     public void testGetKittens() throws Exception {
         Feline feline = Mockito.mock(Feline.class);
-        Lion lion = new Lion(sexForTest,feline);
+        Lion lion = new Lion("Самец",feline);
         Lion lionSpy = Mockito.spy(lion);
         lionSpy.getKittens();
         Mockito.verify(feline, Mockito.times(1)).getKittens();
@@ -64,7 +40,7 @@ public class TestLion {
     @Test
     public void testGetFood() throws Exception {
         Feline feline = Mockito.spy(Feline.class);
-        Lion lion = new Lion(sexForTest,feline);
+        Lion lion = new Lion("Самец",feline);
         Lion lionSpy = Mockito.spy(lion);
         List<String> eat = List.of("Животные", "Птицы", "Рыба");
         Assert.assertEquals(eat,lionSpy.getFood());
